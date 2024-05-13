@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="3.19.cpp" />
+    <ClCompile Include="c++11_thread.cpp" />
+    <ClCompile Include="c++11_基本互斥锁.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="thread_pool.cpp" />
+    <ClCompile Include="pthread_分离状态.cpp" />
+    <ClCompile Include="pthread_栈尺寸.cpp" />
+    <ClCompile Include="pthread_线程同步.cpp" />
+    <ClCompile Include="pthread_调度策略.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{0e93068d-c080-41a0-9938-7c53573ab1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{fe8e5c9e-a21b-4e06-b6dd-216e7b24543e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="thread_pool.h" />
+  </ItemGroup>
+</Project>
