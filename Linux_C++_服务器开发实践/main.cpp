@@ -11,7 +11,7 @@ public:
 
 	}
 
-	int run()
+	int Run()
 	{
 		printf("%s \n", (char*)m_ptrData);
 		int x = rand() % 4 + 1;
@@ -29,7 +29,7 @@ int main()
 	CThreadPool threadpool(5);
 	for (int i = 0; i < 10; i++)
 	{
-		threadpool.addTask(&taskobj);
+		threadpool.AddTask(&taskobj);
 	}
 	while (true)
 	{
