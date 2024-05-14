@@ -9,7 +9,7 @@
     <ClCompile Include="pthread_栈尺寸.cpp" />
     <ClCompile Include="pthread_线程同步.cpp" />
     <ClCompile Include="pthread_调度策略.cpp" />
-    <ClCompile Include="D:\Linux_C++_服务器开发实践\LinuxCCPP服务器编程实践源码\LinuxCCPP服务器编程实践源码\ch03\3.40\test\thread_pool.cpp" />
+    <ClCompile Include="thread_pool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="源文件">
@@ -20,6 +20,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\Linux_C++_服务器开发实践\LinuxCCPP服务器编程实践源码\LinuxCCPP服务器编程实践源码\ch03\3.40\test\thread_pool.h" />
+    <ClInclude Include="thread_pool.h" />
   </ItemGroup>
 </Project>
