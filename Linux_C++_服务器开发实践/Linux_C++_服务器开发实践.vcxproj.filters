@@ -10,6 +10,8 @@
     <ClCompile Include="pthread_线程同步.cpp" />
     <ClCompile Include="pthread_调度策略.cpp" />
     <ClCompile Include="thread_pool.cpp" />
+    <ClCompile Include="server.cpp" />
+    <ClCompile Include="client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="源文件">
