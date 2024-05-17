@@ -14,7 +14,7 @@ int main()
 	int listenfd = socket(AF_INET, SOCK_STREAM, 0);
 	sockaddr_in servaddr;
 	servaddr.sin_family = AF_INET;
-	servaddr.sin_port = htons(8000);
+	servaddr.sin_port = htons(3333);
 	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	char on = 1;
 	setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR,&on, sizeof(on));

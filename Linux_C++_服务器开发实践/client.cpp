@@ -17,7 +17,7 @@ int main()
 	sockaddr_in clientaddr;
 	memset(&clientaddr, 0, sizeof(clientaddr));
 	clientaddr.sin_family = AF_INET;
-	clientaddr.sin_port = htons(8000);
+	clientaddr.sin_port = htons(3333);
 	clientaddr.sin_addr.s_addr = inet_addr("192.168.200.130");
 
 	connect(sockfd, (sockaddr*)&clientaddr, sizeof(clientaddr));
