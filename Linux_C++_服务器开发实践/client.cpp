@@ -1,65 +1,72 @@
-#include<sys/socket.h>
-#include<cstdio>
-#include<assert.h>
-#include<errno.h>
-#include<arpa/inet.h>
-#include<unistd.h>
-#include<netinet/in.h>
-#include<sys/types.h>
-#include<netdb.h>
-#include<string.h>
-
-
-int main()
+// client.c 客户端
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <time.h>
+#define SERVPORT 3333
+#define MAXDATASIZE 100
+int random_number()//generating a random number
 {
-	int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	int ret;
-	sockaddr_in clientaddr;
-	memset(&clientaddr, 0, sizeof(clientaddr));
-	clientaddr.sin_family = AF_INET;
-	clientaddr.sin_port = htons(3333);
-	clientaddr.sin_addr.s_addr = inet_addr("192.168.200.130");
-
-	connect(sockfd, (sockaddr*)&clientaddr, sizeof(clientaddr));
-
-	//接受服务端的消息
-	char recvbuf[300];
-	do
-	{
-		ret = recv(sockfd, recvbuf, 300, 0);
-		if (ret>0)
-		{
-			//printf("\n recv %d byte.", ret);
-			//for (int i = 0; i < ret; i++)
-			//{
-			//	printf("%c", recvbuf[i]);
-			//}
-			//printf("\n");
-			recvbuf[ret] = '\0';
-			printf("\n recv %d byte : %s\n", ret, recvbuf);
-		}
-		else if (ret == 0)
-		{
-			puts("\n the server has closed!\n");
-
-		}
-		else
-		{
-			printf("recv failed: %d\n", errno);
-			close(sockfd);
-			return 1;
-		}
-	} while (ret>0);
-	//发送数据
-	char sendbuf[100];
-	for (int i = 0; i < 10; i++)
-	{
-		sprintf(sendbuf, "NO.%d I`m client .hello server! \n", i + 1);
-		send(sockfd, sendbuf, strlen(sendbuf), 0);
-		memset(sendbuf, 0, sizeof(sendbuf));
-	}
-	puts("Sending data to the server is finished.\n");
-	close(sockfd);
-	getchar();
-	return 0;
+    int a;
+    srand((unsigned)time(NULL));
+    a = rand();
+    return a;
+}
+int main(int argc, char* argv[])
+{
+    int sockfd, recvbytes;
+    int value = 0;
+    char buf[MAXDATASIZE];
+    struct hostent* host;
+    struct sockaddr_in serv_addr;
+    if (argc < 2)
+    {
+        fprintf(stderr, "Please enter the server's hostname!\n");
+        exit(1);
+    }
+    if ((host = gethostbyname(argv[1])) == NULL)
+    {
+        herror("gethostbyname error！");
+        exit(1);
+    }
+    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)//建立socket --
+    {
+        perror("socket create error！");
+        exit(1);
+    }
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(SERVPORT);
+    serv_addr.sin_addr = *((struct in_addr*)host->h_addr);
+    bzero(&(serv_addr.sin_zero), 8);
+    if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(struct sockaddr)) == -1) //请求连接 --
+    {
+        perror("connect error！");
+        exit(1);
+    }
+    //successful connection
+    if ((recvbytes = recv(sockfd, buf, MAXDATASIZE, 0)) == -1)//接收数据 --
+    {
+        perror("connect 出错！");
+        exit(1);
+    }
+    buf[recvbytes] = '\0';
+    printf("收到: %s", buf);
+    //send pieces of message to server
+    while (1)
+    {
+        //generating a random number and sending it to the host
+        value = random_number();
+        sprintf(buf, "%d", value);//int to string
+        send(sockfd, buf, (int)strlen(buf), 0);
+        //every one second client sends a random number converted to string to host
+        sleep(1);
+    }
+    close(sockfd);//关闭连接 --
 }

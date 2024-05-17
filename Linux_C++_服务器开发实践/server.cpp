@@ -1,77 +1,73 @@
-#include<sys/socket.h>
-#include<cstdio>
-#include<assert.h>
-#include<errno.h>
-#include<arpa/inet.h>
-#include<unistd.h>
+// server.c 服务端
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
 #include<netinet/in.h>
-#include<sys/types.h>
-#include<netdb.h>
-#include<string.h>
-
+#include <sys/wait.h>
+#include <arpa/inet.h> 
+#define SERVPORT 3333
+#define BACKLOG 10
 int main()
 {
-	int listenfd = socket(AF_INET, SOCK_STREAM, 0);
-	sockaddr_in servaddr;
-	servaddr.sin_family = AF_INET;
-	servaddr.sin_port = htons(3333);
-	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	char on = 1;
-	setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR,&on, sizeof(on));
-	int ret;
-	ret = bind(listenfd, (sockaddr*)&servaddr, sizeof(servaddr));
-	if (ret!=0)
-	{
-		printf("bind failed!\n");
-		return 0;
-	}
-	listen(listenfd, 5);
+    int sockfd, client_fd;
+    int recvbytes;
+    int sin_size;
+    char buf[50];
+    struct sockaddr_in my_addr;
+    struct sockaddr_in remote_addr;
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);//建立socket --
+    my_addr.sin_family = AF_INET;//AF_INET地址族
+    my_addr.sin_port = htons(SERVPORT);//设定端口号(host -> networks)
+    my_addr.sin_addr.s_addr = inet_addr("192.168.200.130");//32位IPv4地址
+    bzero(&(my_addr.sin_zero), 8); //置前8个字节为0
+    char on = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
+    if (bind(sockfd, (struct sockaddr*)&my_addr, sizeof(struct sockaddr)) == -1)
+    {
+        perror("bind 出错！");
+        exit(1);
+    }
+    
+    if (listen(sockfd, BACKLOG) == -1) //监听socket连接，设置队列中最多拥有连接个数为10  --
+    {
+        perror("listen 出错！");
+        exit(1);
+    }
+    while (1)
+    {
+        sin_size = sizeof(struct sockaddr_in);//记录sockaddr_in结构体所占字节数
+        if ((client_fd = accept(sockfd, (struct sockaddr*)&remote_addr, (socklen_t*) & sin_size)) == -1) //accept()缺省是阻塞函数，阻塞到有连接请求为止 --
+        {
+            perror("accept error");
+            continue;
+        }
+        printf("收到一个连接来自： %s\n", inet_ntoa(remote_addr.sin_addr));
+        if (!fork())
+        {
+            if (send(client_fd, "连接上了 \n", 26, 0) == -1) //--		
+                perror("send 出错！");
+            //receive pieces of message from host
+            while (1)
+            {
+                recvbytes = recv(client_fd, buf, 50, 0);
+                buf[recvbytes] = '\0';
+                if (recvbytes == 0)//indicating that the client has been off
+                {
+                    printf("connection to %s closed.\n", inet_ntoa(remote_addr.sin_addr));
+                    break;
+                }
+                printf("%s\n", buf);
+                sleep(1);
+            }
 
-	sockaddr_in clientaddr;
-	socklen_t size = sizeof(clientaddr);
-
-	while (true)
-	{
-		printf("------waiting for client-------\n");
-		int sockfd = accept(listenfd, (sockaddr*)&clientaddr,&size);
-
-		char sendbuf[100];
-		for (int i = 0; i < 10; i++)
-		{
-			//发送数据
-			sprintf(sendbuf,"NO. %d welcome to server. Hello client!(client IP: %s )", i + 1, inet_ntoa(clientaddr.sin_addr));
-			send(sockfd, sendbuf, sizeof(sendbuf), 0);
-		}
-		ret = shutdown(sockfd, SHUT_WR);
-		//接受数据
-		char recvbuf[300];
-		do
-		{
-			ret = recv(sockfd, recvbuf, 300, 0);
-			printf("Recv %d byte.  \n", ret);
-			if (ret>0)
-			{
-				recvbuf[ret] = '\0';
-				printf("%s \n", recvbuf);
-			}
-			else if (ret == 0)
-			{
-				printf("client has closed .\n");
-			}
-			else
-			{
-				printf("recv failed with error:%d\n", errno);
-				close(sockfd);
-				return 1;
-			}
-		} while (ret>0);
-		close(sockfd);
-		printf("Continue monitoring? (y/n)\n");
-		char ch;
-		scanf("%c", &ch);
-		if (ch == 'n' or ch == 'N')
-			break;
-	}
-	close(listenfd);
-	return 0;
+            close(client_fd);
+            exit(0);
+        }
+        close(client_fd);
+    }
 }
