@@ -1,4 +1,4 @@
-// server.c 服务端
+// server.cpp 服务端
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -23,7 +23,7 @@ int main()
     sockfd = socket(AF_INET, SOCK_STREAM, 0);//建立socket --
     my_addr.sin_family = AF_INET;//AF_INET地址族
     my_addr.sin_port = htons(SERVPORT);//设定端口号(host -> networks)
-    my_addr.sin_addr.s_addr = inet_addr("192.168.200.130");//32位IPv4地址
+    my_addr.sin_addr.s_addr = INADDR_ANY;//32位IPv4地址
     bzero(&(my_addr.sin_zero), 8); //置前8个字节为0
     char on = 1;
     setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));

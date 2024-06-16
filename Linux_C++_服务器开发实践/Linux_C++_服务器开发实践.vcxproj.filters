@@ -12,11 +12,10 @@
     <ClCompile Include="thread_pool.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="udp_client.cpp" />
+    <ClCompile Include="udp_server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{0e93068d-c080-41a0-9938-7c53573ab1aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件">
       <UniqueIdentifier>{fe8e5c9e-a21b-4e06-b6dd-216e7b24543e}</UniqueIdentifier>
     </Filter>
