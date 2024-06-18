@@ -14,6 +14,7 @@
     <ClCompile Include="client.cpp" />
     <ClCompile Include="udp_client.cpp" />
     <ClCompile Include="udp_server.cpp" />
+    <ClCompile Include="RAW_捕获ping包_recver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="头文件">
@@ -22,5 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="thread_pool.h" />
+    <ClInclude Include="ipproto.h" />
   </ItemGroup>
 </Project>
