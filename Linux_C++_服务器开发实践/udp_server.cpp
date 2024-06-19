@@ -23,7 +23,7 @@ int main()
 	//设置服务端地址信息
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_port = htons(9999);
-	servaddr.sin_addr.s_addr = inet_addr("192.168.200.131");
+	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
 	//创建udp套接字
 	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -44,23 +44,28 @@ int main()
 		printf("bind failed");
 		return -1;
 	}
+	while (true)
+	{
+		printf("waiting data......\n");
+		//接收data
+		ret = recvfrom(sockfd, rbuf, sizeof(rbuf), 0, (sockaddr*)&servaddr, (socklen_t*)&size);
+		if (ret < 0)
+		{
+			perror("recvfrom failed");
+		}
+		printf("recvfrom data: %s\n", rbuf);
 
-	//接收data
-	ret = recvfrom(sockfd, rbuf, sizeof(rbuf), 0, (sockaddr*)&servaddr, (socklen_t*)&size);
-	if (ret<0)
-	{
-		perror("recvfrom failed");
+		//发送data ---sendto
+		char wbuf[] = "hello client";
+		printf("sendto data: %s\n", wbuf);
+		ret = sendto(sockfd, wbuf, sizeof(wbuf), 0, (sockaddr*)&servaddr, (socklen_t)size);
+		if (ret < 0)
+		{
+			printf("sendto failed");
+		}
 	}
-	printf("recvfrom data: %s\n", rbuf);
 	
-	//发送data ---sendto
-	char wbuf[] = "hello client";
-	printf("sendto data: %s\n", wbuf);
-	ret = sendto(sockfd, wbuf, sizeof(wbuf), 0, (sockaddr*)&servaddr, (socklen_t)size);
-	if (ret<0)
-	{
-		printf("sendto failed");
-	}
+
 	close(sockfd);
 	return -1;
 }
