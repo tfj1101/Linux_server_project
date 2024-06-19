@@ -15,6 +15,7 @@
     <ClCompile Include="udp_client.cpp" />
     <ClCompile Include="udp_server.cpp" />
     <ClCompile Include="RAW_捕获ping包_recver.cpp" />
+    <ClCompile Include="time岁数.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="头文件">

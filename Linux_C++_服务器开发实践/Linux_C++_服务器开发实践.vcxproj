@@ -63,6 +63,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
+    <RemoteRootDir>~/</RemoteRootDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -88,6 +89,7 @@
     <ClCompile Include="RAW_捕获ping包_recver.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="thread_pool.cpp" />
+    <ClCompile Include="time岁数.cpp" />
     <ClCompile Include="udp_client.cpp" />
     <ClCompile Include="udp_server.cpp" />
   </ItemGroup>
