@@ -16,6 +16,9 @@
     <ClCompile Include="udp_server.cpp" />
     <ClCompile Include="RAW_捕获ping包_recver.cpp" />
     <ClCompile Include="time岁数.cpp" />
+    <ClCompile Include="tcpForkServer.cpp" />
+    <ClCompile Include="tcpThreadServer.cpp" />
+    <ClCompile Include="tcpEpollServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="头文件">
@@ -25,5 +28,8 @@
   <ItemGroup>
     <ClInclude Include="thread_pool.h" />
     <ClInclude Include="ipproto.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
   </ItemGroup>
 </Project>

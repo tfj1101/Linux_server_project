@@ -10,7 +10,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <time.h>
-#define SERVPORT 3333
+#define SERVPORT 8888
 #define MAXDATASIZE 100
 int random_number()//generating a random number
 {

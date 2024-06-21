@@ -53,12 +53,12 @@ int main()
 		{
 			perror("recvfrom failed");
 		}
-		printf("recvfrom data: %s\n", rbuf);
+		printf("recvfrom data: %s  (%s)\n", rbuf,inet_ntoa(servaddr.sin_addr));
 
 		//·¢ËÍdata ---sendto
 		char wbuf[] = "hello client";
-		printf("sendto data: %s\n", wbuf);
-		ret = sendto(sockfd, wbuf, sizeof(wbuf), 0, (sockaddr*)&servaddr, (socklen_t)size);
+		printf("sendto data: %s\n", rbuf);
+		ret = sendto(sockfd, rbuf, sizeof(wbuf), 0, (sockaddr*)&servaddr, (socklen_t)size);
 		if (ret < 0)
 		{
 			printf("sendto failed");

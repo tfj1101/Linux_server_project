@@ -88,6 +88,9 @@
     <ClCompile Include="pthread_调度策略.cpp" />
     <ClCompile Include="RAW_捕获ping包_recver.cpp" />
     <ClCompile Include="server.cpp" />
+    <ClCompile Include="tcpEpollServer.cpp" />
+    <ClCompile Include="tcpForkServer.cpp" />
+    <ClCompile Include="tcpThreadServer.cpp" />
     <ClCompile Include="thread_pool.cpp" />
     <ClCompile Include="time岁数.cpp" />
     <ClCompile Include="udp_client.cpp" />
@@ -96,6 +99,9 @@
   <ItemGroup>
     <ClInclude Include="ipproto.h" />
     <ClInclude Include="thread_pool.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
